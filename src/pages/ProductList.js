@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import './ProductList.css'
 
 const ProductList = () => {
-    const {id}= useParams();
+    const {productId}= useParams();
 
     const productsArr = [
 
@@ -54,7 +54,7 @@ const ProductList = () => {
 
         ];
 
-        const snglprdct=productsArr.filter((item)=>item.id===id);
+        const snglprdct=productsArr.filter((item)=>item.id===productId);
 
         
 

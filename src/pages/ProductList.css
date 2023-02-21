@@ -1,21 +1,28 @@
-.images {
-    display: grid;
-    margin-top: 150px;
-    margin-left: 100px;
-    width: 50%;
-    grid-template-columns: 200px 200px 200px 200px ;
-justify-content: space-around;
+.single-main{
+    display: flex;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
 }
 
-.images img {
-    width: 200px;
-    height: 200px;
-    margin: 15px;
-}
-.images img:hover {
-    transform: scale(1.5);
+.single-left{
+width: 40%;
+align-items: center;
+justify-content: center;
+margin: 20px;
 }
 
-h1,h2,p {
-    margin-left: 15px;
+.single-left img {
+    width: 80%;
+    border-radius: 5px;
+}
+
+.single-right{
+width: 80%;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+margin-right: 10px;
+
 }
