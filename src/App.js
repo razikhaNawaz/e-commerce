@@ -5,6 +5,7 @@ import {Route, Switch } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import CartProvider from "./store/CartProvider";
 import AlbumList from "./components/AlbumList";
+import ProductList from "./pages/ProductList";
 import About from "./pages/about";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
@@ -102,6 +103,9 @@ function App() {
           <Route path="/contactus">
             <ContactUs getUserDetails={submitUserDetails} />
           </Route>
+          <Route path="/store/:productId">
+        <ProductList />
+      </Route>
           
         </Switch>
       </main>
