@@ -1,13 +1,13 @@
-// import axios from "axios";
+
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-// import AuthContext from "../store/auth-context";
+
 import CartContext from "../store/cart-context";
 import "./AlbumList.css";
 
 const AlbumList = (props) => {
   const cartCtx = useContext(CartContext);
-  // const authCtx = useContext(AuthContext);
+  
   const addToCart = (e) => {
     e.preventDefault();
     const obj = {
@@ -27,6 +27,7 @@ const AlbumList = (props) => {
       quantity: props.quantity,
       price: props.price,
     });
+    
 
   };
 
