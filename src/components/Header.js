@@ -7,7 +7,7 @@ import { useContext } from "react";
 
 
 const Header = (props) => {
-const authCtx=useContext(AuthContext);            logoutredirect
+const authCtx=useContext(AuthContext);           
 const isLoggedIn= authCtx.isLoggedIn;
 
 const logoutHandler=()=>{
