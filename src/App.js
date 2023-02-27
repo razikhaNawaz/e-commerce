@@ -1,7 +1,7 @@
 import "./App.css";
 import Header from "./components/Header";
-import React, { useState } from "react";
-import {Route, Switch } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import {Route, Switch, Redirect } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import CartProvider from "./store/CartProvider";
 import AlbumList from "./components/AlbumList";
@@ -9,7 +9,9 @@ import ProductList from "./pages/ProductList";
 import About from "./pages/about";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
+import Login from "./pages/Login";
 import Footer from "./components/UI/Footer";
+import AuthContext from "./store/auth-context";
 
 const productsArr = [
   {
@@ -44,7 +46,9 @@ const productsArr = [
 
 function App() {
   const [cart, setCart] = useState(false);
- 
+  
+  const authCtx = useContext(AuthContext);
+  const isLoggedIn = authCtx.isLoggedIn;
   
   const productList = productsArr.map((product) => {
     return (
@@ -89,10 +93,19 @@ function App() {
       
       <main>
         <Switch>
-          <Route path="/store" exact>
-            {cart && <Cart onClose={closeCartHandller} />}
-            <main>{productList}</main>
-             
+        <Route path="/store" exact>
+            {isLoggedIn && (
+              <>
+              {cart && <Cart onClose={closeCartHandller} />}
+                <div className="title">
+                  <h1>The Generics</h1>
+                </div>
+                <h1 className="category">Music</h1>
+                <main>{productList}</main>
+              </>
+            )}
+            {!isLoggedIn && <Redirect to="/login" />}
+            
           </Route>
           <Route path="/about">
             <About />
@@ -103,9 +116,13 @@ function App() {
           <Route path="/contactus">
             <ContactUs getUserDetails={submitUserDetails} />
           </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
           <Route path="/store/:productId">
         <ProductList />
       </Route>
+      
           
         </Switch>
       </main>
