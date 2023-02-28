@@ -3,9 +3,58 @@ import CartContext from "./cart-context";
 
 const CartProvider = (props) => {
   const [addItems, setAddItems] = useState([]);
-  const [crudlist, setCrudlist] = useState([]);
+  //const [itemFromCrud, setItemFromCrud]= useState([]);
+
+let urlOfCrud='https://crudcrud.com/api/9bd77481152544cc8355234ddfaa6757';
+let userIdentity=localStorage.getItem('email');
+
+const getDataFromCrud=async()=>{
+  try{
+    const response=await fetch(`${urlOfCrud}/${userIdentity}`);
+    const result=await response.json();
+    setAddItems(result);
+    console.log('result', result);
+  } catch(err){
+    alert(err);
+  }
+}
+const postDataToCrud=async (item)=>{ //item contains data which we want to post to crud crud
+  try{
+    let alreadyExistsItem=addItems.find((element)=>element.id===item.id);
+    if(alreadyExistsItem){
+       alert('item already present');
+    } else {
+      const addToCrud=await fetch(`${urlOfCrud}/${userIdentity}`, {
+        method:'POST',
+        body:JSON.stringify(item),
+        headers:{
+          "Content-Type":"application/json"
+        }
+      });
+      console.log('addToCrud', addToCrud); //the response which is obtained from fetch we console it
+      console.log('added');
+    }
+  } catch(err){
+    console.log('error',err);
+  }
+}
+const deleteDataFromCrud=async(id)=>{ //we passing particular id which we are obtaing from crud crud in the form of ._id we want to delete data
+  try{
+    const response=await fetch(`${urlOfCrud}/${userIdentity}/${id}`,{
+      method:'DELETE',
+      headers:{
+        "Content-Type":"application/json"
+      }
+    });
+    console.log('responsedelete', response);
+    getDataFromCrud();
+  } catch(err){
+    alert(err);
+  }
+}
+
   const addItemToCart = (item) => {
-    let cartItems = [...addItems];
+    /*let cartItems = [...addItems];
     let hasItem = false;
     cartItems.forEach((product) => {
       if (product.id === item.id) {
@@ -19,10 +68,13 @@ const CartProvider = (props) => {
       setAddItems((prevItem) => {
         return [...prevItem, item];
       });
-    }
+    }*/
+    postDataToCrud(item) //once item is added to cart this will post data to crud crud
+    console.log('item',item);
+    getDataFromCrud();
   };
   const removeItemFromCart = (item) => {
-    let cartItems = [...addItems];
+    /*let cartItems = [...addItems];
     cartItems.forEach((product, index) => {
       if (product.id === item.id && product.quantity <= 1) {
         cartItems.splice(index, 1);
@@ -32,18 +84,15 @@ const CartProvider = (props) => {
         product.quantity = Number(product.quantity) - 1;
         setAddItems(cartItems);
       }
-    });
+    });*/
+    console.log("item._id", item._id);
+    deleteDataFromCrud(item._id);
   };
-  const crudlistHandler = (items) => {
-    setCrudlist(items);
-  };
-
-  const cartContext = {
+ const cartContext = {
+    //itemFromCrud:itemFromCrud,
     items: addItems,
     addItem: addItemToCart,
     removeItem: removeItemFromCart,
-    crudlist: crudlistHandler,
-    cruditems: crudlist,
   };
 
   return (

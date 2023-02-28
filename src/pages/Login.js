@@ -44,7 +44,7 @@ const Login = () => {
       if(res.ok){
           let data=res.json();
           (data).then((resp)=>{
-              authCtx.login(resp.idToken);
+              authCtx.login(resp.idToken, enteredEmail);
               history.replace('/store')
               console.log(resp.idToken);
           })
