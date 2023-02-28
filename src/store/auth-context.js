@@ -32,8 +32,7 @@ const values = {
     token: token,
     isLoggedIn: userisLoggedIn,
     login: loginHandler,
-   
-    logout:logoutHandler,
+   logout:logoutHandler,
     tokenVal:tokenVal
   };
   return (
