@@ -1,17 +1,18 @@
 import "./App.css";
 import Header from "./components/Header";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, Suspense } from "react";
 import {Route, Switch, Redirect } from "react-router-dom";
 import Cart from "./components/Cart/Cart";
 import CartProvider from "./store/CartProvider";
 import AlbumList from "./components/AlbumList";
 import ProductList from "./pages/ProductList";
-import About from "./pages/about";
+//import About from "./pages/about";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
 import Login from "./pages/Login";
 import Footer from "./components/UI/Footer";
 import AuthContext from "./store/auth-context";
+
 
 const productsArr = [
   {
@@ -73,7 +74,7 @@ function App() {
 
   const submitUserDetails = async (details) => {
     const response = await fetch(
-      "https://react-https-d4c87-default-rtdb.firebaseio.com/users.json",
+      "https://react-http-15873-default-rtdb.firebaseio.com/users.json",
       {
         method: "POST",
         body: JSON.stringify(details),
@@ -85,7 +86,7 @@ function App() {
     const data = await response.json();
     console.log(data);
   };
-
+  const About=React.lazy(()=>import("./pages/about"));
   return (
     <CartProvider>
       
@@ -94,6 +95,7 @@ function App() {
       <main>
         <Switch>
         <Route path="/store" exact>
+          
             {isLoggedIn && (
               <>
               {cart && <Cart onClose={closeCartHandller} />}
@@ -104,13 +106,13 @@ function App() {
                 <main>{productList}</main>
               </>
             )}
-            {!isLoggedIn && <Route path="/store">
-            <Redirect to="/login" />
-            </Route>}
-            
+            {!isLoggedIn && <Redirect to="/login" />}
+           
           </Route>
-          <Route path="/about" exact>
+          <Route path="/about" >
+          <Suspense fallback={<div>Loading...</div>}>
             <About />
+            </Suspense>
           </Route>
           <Route path="/home" exact>
             <Home />
